@@ -1,6 +1,5 @@
 #!usr/bin/env python
 import json
-import argparse
 
 
 def generate_diff(file_path1, file_path2):
@@ -25,10 +24,12 @@ def generate_diff(file_path1, file_path2):
             else:
                 output.append('  - {}: {}'.format(key, value1))
                 output.append('  + {}: {}'.format(key, value2))
-    print('{\n' + '\n'.join(output) + '\n}')
+    return '{\n' + '\n'.join(output) + '\n}\n'
 
 
 def main():
+    import sys
+    import argparse
     parser = argparse.ArgumentParser(description='Generate diff')
     parser.add_argument('first_file')
     parser.add_argument('second_file')
@@ -36,7 +37,7 @@ def main():
                         help='set format of output',
                         metavar='FORMAT')
     args = parser.parse_args()
-    generate_diff(args.first_file, args.second_file)
+    sys.stdout.write(generate_diff(args.first_file, args.second_file))
 
 
 if __name__ == '__main__':

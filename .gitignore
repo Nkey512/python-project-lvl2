@@ -4,5 +4,3 @@ dist/
 *.pyc
 .venv/
 .idea
-*.json
-file3_test.py
