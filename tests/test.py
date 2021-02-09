@@ -15,7 +15,5 @@ def test_flat_json():
   + verbose: True
 }
 '''
-    assert generate_diff('fixtures/file1.json', 'fixtures/file2.json') == string
-
-
-test_flat_json()
+    assert generate_diff('tests/fixtures/file1.json',
+                         'tests/fixtures/file2.json') == string
