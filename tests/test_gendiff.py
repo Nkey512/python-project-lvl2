@@ -4,9 +4,7 @@
 
 from gendiff.scripts.gendiff import generate_diff
 
-
-def test_flat_json():
-    string = '''{
+string = '''{
   - follow: False
     host: hexlet.io
   - proxy: 123.234.53.22
@@ -15,5 +13,13 @@ def test_flat_json():
   + verbose: True
 }
 '''
+
+
+def test_flat_json():
     assert generate_diff('tests/fixtures/file1.json',
                          'tests/fixtures/file2.json') == string
+
+
+def test_flat_yaml():
+    assert generate_diff('tests/fixtures/file1.yml',
+                         'tests/fixtures/file2.yml') == string
