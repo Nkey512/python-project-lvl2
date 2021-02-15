@@ -4,3 +4,5 @@ dist/
 *.pyc
 .venv/
 .idea
+tests/fixtures/res_flat.json
+tests/fixtures/trials.py
