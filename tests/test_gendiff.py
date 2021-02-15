@@ -3,6 +3,7 @@
 """gendiff function representation tests."""
 
 from gendiff.scripts.gendiff import generate_diff
+from gendiff.parsing import parse_file
 
 string = '''{
   - follow: False
@@ -13,13 +14,17 @@ string = '''{
   + verbose: True
 }
 '''
+file1 = parse_file('tests/fixtures/file1.json')
+file2 = parse_file('tests/fixtures/file2.json')
 
 
 def test_flat_json():
-    assert generate_diff('tests/fixtures/file1.json',
-                         'tests/fixtures/file2.json') == string
+    assert generate_diff(file1, file2) == string
+
+
+file3 = parse_file('tests/fixtures/file1.yml')
+file4 = parse_file('tests/fixtures/file2.yml')
 
 
 def test_flat_yaml():
-    assert generate_diff('tests/fixtures/file1.yml',
-                         'tests/fixtures/file2.yml') == string
+    assert generate_diff(file3, file4) == string
