@@ -1,10 +1,8 @@
 #!usr/bin/env python
-import json
+from gendiff.parsing import parse_file
 
 
-def generate_diff(file_path1, file_path2):
-    file1 = json.load(open(file_path1))
-    file2 = json.load(open(file_path2))
+def generate_diff(file1, file2):
     keys1 = set(list(file1))
     keys2 = set(list(file2))
     all_keys = tuple(sorted({*keys1, *keys2}))
@@ -37,7 +35,9 @@ def main():
                         help='set format of output',
                         metavar='FORMAT')
     args = parser.parse_args()
-    sys.stdout.write(generate_diff(args.first_file, args.second_file))
+    file1 = parse_file(args.first_file)
+    file2 = parse_file(args.second_file)
+    sys.stdout.write(generate_diff(file1, file2))
 
 
 if __name__ == '__main__':
