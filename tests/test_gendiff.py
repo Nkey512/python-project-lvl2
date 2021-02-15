@@ -14,16 +14,16 @@ string = '''{
   + verbose: True
 }
 '''
-file1 = parse_file('fixtures/file1.json')
-file2 = parse_file('fixtures/file2.json')
+file1 = parse_file('./fixtures/file1.json')
+file2 = parse_file('./fixtures/file2.json')
 
 
 def test_flat_json():
     assert generate_diff(file1, file2) == string
 
 
-file3 = parse_file('fixtures/file3.yml')
-file4 = parse_file('fixtures/file4.yml')
+file3 = parse_file('./fixtures/file3.yml')
+file4 = parse_file('./fixtures/file4.yml')
 
 
 def test_flat_yaml():
