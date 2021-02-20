@@ -57,6 +57,7 @@ def stylish(diff):
             string += '{\n'
             for k, v in value[1].items():
                 if v[0] == CHILD:
+                    string += '{} {}: '.format(SIGN[v[0]], k)
                     string += stylish(v[1])
                 elif len(v) == 2:
                     string += '{} {}: {}\n'.format(SIGN[v[0]], k, pretty_dict(v[1]))
@@ -66,4 +67,4 @@ def stylish(diff):
             string += '}\n'
         else:
             string += '{} {}: {}\n'.format(SIGN[value[0]], key, pretty_dict(value[1]))
-    return string
+    return '{\n' + string + '}\n'

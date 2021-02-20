@@ -12,11 +12,8 @@ def generate_diff(file1, file2, formatter=stylish):
 
 
 def main():
-    import sys
     args = cli_argparser().parse_args()
-    file1 = parsing.get_data(args.first_file)
-    file2 = parsing.get_data(args.second_file)
-    sys.stdout.write(generate_diff(file1, file2))
+    print(generate_diff(args.first_file, args.second_file))
 
 
 if __name__ == '__main__':
