@@ -27,5 +27,8 @@
       }
     },
     "fee": 100500
-  }
+  },
+  "timeout": 20,
+  "verbose": true,
+  "host": "hexlet.io"
 }

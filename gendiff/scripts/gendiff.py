@@ -1,32 +1,21 @@
 #!usr/bin/env python
-from gendiff.parsing import parse_file
-
-
-def diff(doc1, doc2):
-    return
-
-
-def stylish(tree, tab=2):
-    return
+from gendiff import parsing
+from gendiff.cli import cli_argparser
+from gendiff.engine import build_diff, stylish
 
 
 def generate_diff(file1, file2, formatter=stylish):
-    inner_d = diff(file1, file2)
+    parsed_file1 = parsing.get_data(file1)
+    parsed_file2 = parsing.get_data(file2)
+    inner_d = build_diff(parsed_file1, parsed_file2)
     return formatter(inner_d)
 
 
 def main():
     import sys
-    import argparse
-    parser = argparse.ArgumentParser(description='Generate diff')
-    parser.add_argument('first_file')
-    parser.add_argument('second_file')
-    parser.add_argument('-f', '--format',
-                        help='set format of output',
-                        metavar='FORMAT')
-    args = parser.parse_args()
-    file1 = parse_file(args.first_file)
-    file2 = parse_file(args.second_file)
+    args = cli_argparser().parse_args()
+    file1 = parsing.get_data(args.first_file)
+    file2 = parsing.get_data(args.second_file)
     sys.stdout.write(generate_diff(file1, file2))
 
 
