@@ -1,4 +1,5 @@
 from gendiff.statuses import SAVED, REMOVED, ADDED, CHILD, FROM, TO
+from textwrap import indent
 
 
 SIGN = {
@@ -40,31 +41,31 @@ def compare_children(elem1, elem2):
         return FROM, elem1, TO, elem2
 
 
-def pretty_dict(x):
+def norm_dict(x, curr_ind=4):
     if isinstance(x, dict):
-        res = []
+        s = ''
         for key, value in x.items():
-            res.append('{}: {}'.format(key, pretty_dict(value)))
-        return '{\n' + '\n'.join(res) + '\n}'
+            s += '{}{}: {}\n'.format((curr_ind+2)*' ', key, norm_dict(value, curr_ind=curr_ind+4))
+        return '{\n' + s + (curr_ind-2)*' ' + '}'
     return x
 
 
 def stylish(diff):
-    string = ''
-    for key, value in diff.items():
-        if value[0] == CHILD:
-            string += '{} {}: '.format(SIGN[value[0]], key)
-            string += '{\n'
-            for k, v in value[1].items():
-                if v[0] == CHILD:
-                    string += '{} {}: '.format(SIGN[v[0]], k)
-                    string += stylish(v[1])
-                elif len(v) == 2:
-                    string += '{} {}: {}\n'.format(SIGN[v[0]], k, pretty_dict(v[1]))
-                elif len(v) == 4:
-                    string += '{} {}: {}\n'.format(SIGN[v[0]], k, pretty_dict(v[1]))
-                    string += '{} {}: {}\n'.format(SIGN[v[2]], k, pretty_dict(v[3]))
-            string += '}\n'
+    body_indent = 4
+    tail_indent = 2
+    string = ''''''
+    for k, v in diff.items():
+        if v[0] != CHILD:
+            curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, norm_dict(v[1]))
+            string += curr_str
+            if len(v) == 4:
+                curr_str = '{} {}: {}\n'.format(SIGN[v[2]], k, norm_dict(v[3]))
+                string += curr_str
         else:
-            string += '{} {}: {}\n'.format(SIGN[value[0]], key, pretty_dict(value[1]))
-    return '{\n' + string + '}\n'
+            curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, '{')
+            string += curr_str
+            curr_str = stylish(v[1])
+            string += indent(curr_str, body_indent*' ')
+            curr_str = '}\n'
+            string += indent(curr_str, tail_indent*' ')
+    return string
