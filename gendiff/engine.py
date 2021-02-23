@@ -51,21 +51,25 @@ def norm_dict(x, curr_ind=4):
 
 
 def stylish(diff):
-    body_indent = 4
-    tail_indent = 2
-    string = ''''''
-    for k, v in diff.items():
-        if v[0] != CHILD:
-            curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, norm_dict(v[1]))
-            string += curr_str
-            if len(v) == 4:
-                curr_str = '{} {}: {}\n'.format(SIGN[v[2]], k, norm_dict(v[3]))
+
+    def rec_style(d):
+        body_indent = 4
+        tail_indent = 2
+        string = ''''''
+        for k, v in d.items():
+            if v[0] != CHILD:
+                curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, norm_dict(v[1]))
                 string += curr_str
-        else:
-            curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, '{')
-            string += curr_str
-            curr_str = stylish(v[1])
-            string += indent(curr_str, body_indent*' ')
-            curr_str = '}\n'
-            string += indent(curr_str, tail_indent*' ')
-    return string
+                if len(v) == 4:
+                    curr_str = '{} {}: {}\n'.format(SIGN[v[2]], k, norm_dict(v[3]))
+                    string += curr_str
+            else:
+                curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, '{')
+                string += curr_str
+                curr_str = rec_style(v[1])
+                string += indent(curr_str, body_indent*' ')
+                curr_str = '}\n'
+                string += indent(curr_str, tail_indent*' ')
+        return string
+
+    return '{\n' + indent(rec_style(diff), '  ') + '}'
