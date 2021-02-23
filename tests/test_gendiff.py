@@ -57,7 +57,7 @@ string2 = '''{
         }
         fee: 100500
     }
-}'''
+}'''  # noqa W291
 
 path1 = 'tests/fixtures/file1.json'
 path2 = 'tests/fixtures/file2.json'
