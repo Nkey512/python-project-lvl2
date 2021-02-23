@@ -9,7 +9,7 @@ SIGN = {
     CHILD: ' ',
     FROM: '-',
     TO: '+'
-    }
+}
 
 
 def build_diff(doc1, doc2):
@@ -45,8 +45,12 @@ def norm_dict(x, curr_ind=4):
     if isinstance(x, dict):
         s = ''
         for key, value in x.items():
-            s += '{}{}: {}\n'.format((curr_ind+2)*' ', key, norm_dict(value, curr_ind=curr_ind+4))
-        return '{\n' + s + (curr_ind-2)*' ' + '}'
+            s += '{}{}: {}\n'.format(
+                (curr_ind + 2) * ' ',
+                key,
+                norm_dict(value, curr_ind=curr_ind + 4)
+            )
+        return '{\n' + s + (curr_ind - 2) * ' ' + '}'
     return x
 
 
@@ -61,15 +65,17 @@ def stylish(diff):
                 curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, norm_dict(v[1]))
                 string += curr_str
                 if len(v) == 4:
-                    curr_str = '{} {}: {}\n'.format(SIGN[v[2]], k, norm_dict(v[3]))
+                    curr_str = '{} {}: {}\n'.format(
+                        SIGN[v[2]], k, norm_dict(v[3])
+                    )
                     string += curr_str
             else:
                 curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, '{')
                 string += curr_str
                 curr_str = rec_style(v[1])
-                string += indent(curr_str, body_indent*' ')
+                string += indent(curr_str, body_indent * ' ')
                 curr_str = '}\n'
-                string += indent(curr_str, tail_indent*' ')
+                string += indent(curr_str, tail_indent * ' ')
         return string
 
     return '{\n' + indent(rec_style(diff), '  ') + '}'
