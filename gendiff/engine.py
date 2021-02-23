@@ -59,7 +59,7 @@ def stylish(diff):
     def rec_style(d):
         body_indent = 4
         tail_indent = 2
-        string = ''''''
+        string = ''
         for k, v in d.items():
             if v[0] != CHILD:
                 curr_str = '{} {}: {}\n'.format(SIGN[v[0]], k, norm_dict(v[1]))
